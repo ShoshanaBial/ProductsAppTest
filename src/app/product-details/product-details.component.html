@@ -1,0 +1,32 @@
+<p-dialog (onHide)="close()" [(visible)]="visible" [style]="{width: '750px'}" [header]="'עריכת מוצר'" [modal]="true"
+    styleClass="p-fluid">
+    <ng-template pTemplate="content">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="p-grid">
+                <div *ngFor="let field of formFields" [ngClass]="('p-col-12')">
+                    <span class="p-float-label" *ngIf="!field.isHidden">
+                        <input *ngIf="field.controlType === 'input'" [type]="field.type || 'text'" pInputText
+                            [name]="field.key" [formControlName]="field.key">
+                        <p-dropdown *ngIf="field.controlType === 'dropdown'" [autoDisplayFirst]="false"
+                            [options]="field.options || []" [name]="field.key" [formControlName]="field.key">
+                        </p-dropdown>
+                        <label [for]="field.key" class="required">{{field.label}}</label>
+                    </span>
+                    <app-error-message [customControl]="form.get(field.key)!"></app-error-message>
+
+                </div>
+
+            </div>
+
+
+            <div class="p-formgroup-inline">
+                <button pButton pRipple label="ניקוי" type="button" class="p-button-rounded p-button-outlined"
+                    (click)="cleanForm()"></button>
+
+                <button type="submit" pButton pRipple label="שמירה" class="p-button-rounded"
+                    [disabled]="!form.valid"></button>
+
+            </div>
+        </form>
+    </ng-template>
+</p-dialog>

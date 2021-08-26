@@ -1,0 +1,22 @@
+:host ::ng-deep {
+    .p-dropdown,
+    input {
+        width: 100%;
+    }
+    .p-formgroup-inline {
+        float: left;
+        button {
+            width: auto;
+        }
+    }
+    .p-float-label>label {
+        right: 1rem;
+        left: unset;
+        color: rgba(0, 0, 0, 0.6);
+        transition-duration: 0.2s;
+    }
+    .required:after {
+        content: " *";
+        color: #B00020;
+    }
+}

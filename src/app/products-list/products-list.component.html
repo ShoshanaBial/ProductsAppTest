@@ -1,0 +1,44 @@
+
+    <div *ngFor="let h of tableHeaders" class='tblStyle'>
+        <h2>{{h.header}}</h2>
+    <p-table #dt [columns]="cols" [value]=" (h.key =='active')? (productsListActive$ | async) :(productsListNotActive$  | async )" 
+             styleClass="p-datatable-sm" dataKey="productId">
+        <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{col.header}}
+                
+            </th>
+            <th>עריכה</th>
+        </tr>
+        <tr>
+            <th *ngFor="let col of columns">
+                <p-columnFilter  *ngIf="col.filterType === 'input'" type="text" field="{{col.field}}"></p-columnFilter>
+                <p-columnFilter *ngIf="col.filterType === 'dropdown'" field="{{col.field}}"  matchMode="equals" [showMenu]="false">
+                    <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                        <p-dropdown [ngModel]="value"  [options]="col.options || []" (onChange)="getProductsFilterByRange($event.value,(h.key =='active')? true: false)" placeholder="טווח מחירים" [showClear]="true">
+                            <ng-template let-option pTemplate="item">
+                                <span>{{option.label}}</span>
+                            </ng-template>
+                        </p-dropdown>
+                    </ng-template>
+                </p-columnFilter>
+            </th>
+            <th></th>
+        </tr>
+    </ng-template>
+        <ng-template pTemplate="body" let-product let-columns="columns" >
+            <tr>
+                <td *ngFor="let col of columns">
+                    {{col.pipe === true?(product[col.field] | yesNo ) : (product[col.field]) }}
+                </td>
+                <td>
+                    <button pButton icon="fa fa-pencil"
+                      (click)="editProduct(product.productId)" ></button>
+                  </td>
+            </tr>
+        </ng-template>
+        
+    </p-table>
+</div>
+    <router-outlet></router-outlet>
